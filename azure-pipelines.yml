@@ -1,0 +1,25 @@
+trigger:
+ - main
+pool:
+  name: 'default'
+steps:
+ - script: |
+    echo "First pipeline script"
+    echo "Another line of code "
+
+ - script: |
+    sudo apt-get update -y
+    sudo apt install -y ansible
+    ansible --version
+   displayName: "Installing Ansible"
+ - script: |
+    sudo apt-get update -y
+    sudo apt-get install -y ansible-lint
+    ansible-lint --version
+   displayName: "Installing Ansible lint"
+ - task: PublishBuildArtifacts@1
+   inputs:
+      PathtoPublish: '$(System.DefaultWorkingDirectory)'
+      ArtifactName: 'ansible-artifact'
+      publishLocation: 'Container'   
+
